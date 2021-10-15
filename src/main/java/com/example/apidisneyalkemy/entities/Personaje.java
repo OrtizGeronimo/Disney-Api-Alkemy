@@ -1,4 +1,4 @@
-package entities;
+package com.example.apidisneyalkemy.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
