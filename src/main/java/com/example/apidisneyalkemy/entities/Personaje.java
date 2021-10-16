@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,5 +26,5 @@ public class Personaje {
     private int edad;
 
     @ManyToMany(mappedBy = "listaPersonajes")
-    private ArrayList<PeliculaSerie> listaPeliculasOSeries;
+    private List<PeliculaSerie> listaPeliculasOSeries = new ArrayList<PeliculaSerie>();
 }

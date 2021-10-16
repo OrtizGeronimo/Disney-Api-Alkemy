@@ -5,13 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
-
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,8 +23,8 @@ public class Genero {
     private String nombre;
     private String imagen;
 
-    @ManyToMany
-    private ArrayList<PeliculaSerie> listaPeliculasOSeries;
+    @ManyToMany(cascade = CascadeType.ALL)
+    private List<PeliculaSerie> listaPeliculasOSeries = new ArrayList<PeliculaSerie>();
 
 
 }

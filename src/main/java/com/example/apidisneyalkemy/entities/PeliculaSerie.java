@@ -5,14 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-
+@Entity
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,7 +25,7 @@ public class PeliculaSerie {
     private Date fechaCreacion;
     private int calificacion; //del 1 al 5
 
-    @ManyToMany
-    private ArrayList<Personaje> listaPersonajes;
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Personaje> listaPersonajes = new ArrayList<Personaje>();
 
 }
