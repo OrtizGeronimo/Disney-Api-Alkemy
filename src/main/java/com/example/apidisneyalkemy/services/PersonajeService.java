@@ -1,7 +1,7 @@
 package com.example.apidisneyalkemy.services;
 
-import com.example.apidisneyalkemy.entities.Personaje;
-import com.example.apidisneyalkemy.repositories.PersonajeRepository;
+import com.example.apidisneyalkemy.entities.PersonajeName;
+import com.example.apidisneyalkemy.repositories.PersonajeNameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,11 +11,12 @@ import java.util.List;
 public class PersonajeService {
 
     @Autowired
-    PersonajeRepository repo;
+    PersonajeNameRepository repo;
 
-    public List<Personaje> findAll() throws Exception{
+
+    public List<PersonajeName> findAll() throws Exception{
         try {
-            List<Personaje> entities = repo.findAll();
+            List<PersonajeName> entities = repo.findAllCharacters();
             return entities;
         } catch (Exception e) {
             throw new Exception(e.getMessage());

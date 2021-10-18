@@ -19,6 +19,6 @@ public class Usuario {
     @Id
     @GeneratedValue
     private long id;
-    private String usuario;
-    private String contraseña;
+    private String usuarioNombre;
+    private String contrasena;
 }

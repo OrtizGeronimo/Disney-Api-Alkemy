@@ -11,5 +11,6 @@ public class User {
 
     private String user;
     private String psw;
+    private String token;
 
 }
