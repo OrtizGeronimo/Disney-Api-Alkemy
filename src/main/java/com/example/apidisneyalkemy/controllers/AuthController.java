@@ -25,24 +25,43 @@ public class AuthController {
     UsuarioService service;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestParam("user") String username, @RequestParam("psw") String psw){
-        try{
+    public ResponseEntity<?> login(@RequestParam("user") String username, @RequestParam("psw") String psw) {
+        try {
             Usuario usuario = service.findByUsuarioAndContrasena(username, psw);
-            if (usuario == null){
-                throw new Exception();
+            if (usuario == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. No se encontró un usuario registrado con ese nombre o contraseña .\"}");
             }
             String token = getJWTToken(username);
             User u = new User();
             u.setUser(username);
             u.setToken(token);
             return ResponseEntity.status(HttpStatus.OK).body(u);
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. "+ e.getMessage() +".\"}");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. " + e.getMessage() + ".\"}");
         }
-
-
-
     }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Usuario user) {
+        try {
+            List<Usuario> usuarios = service.findAll();
+            for (Usuario u : usuarios) {
+                if (u.getUsuarioNombre().equals(user.getUsuarioNombre())) {
+                    return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Ya se encuentra registrado un usuario con ese nombre");
+                }
+            }
+            Usuario usuario = service.save(user);
+            String token = getJWTToken(user.getUsuarioNombre());
+            User u = new User();
+            u.setUser(user.getUsuarioNombre());
+            u.setToken(token);
+            return ResponseEntity.status(HttpStatus.OK).body(u);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. " + e.getMessage() + ".\"}");
+        }
+    }
+
 
     private String getJWTToken(String username) {
         String secretKey = "mySecretKey";
@@ -51,7 +70,7 @@ public class AuthController {
 
         String token = Jwts
                 .builder()
-                .setId("softtekJWT")
+                .setId("alkemyJWT")
                 .setSubject(username)
                 .claim("authorities",
                         grantedAuthorities.stream()
