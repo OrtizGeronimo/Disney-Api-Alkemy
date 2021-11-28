@@ -26,6 +26,6 @@ public class PeliculaSerie {
     private int calificacion; //del 1 al 5
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    private List<Personaje> listaPersonajes = new ArrayList<Personaje>();
+    private List<Personaje> listaPersonajes = new ArrayList<>();
 
 }

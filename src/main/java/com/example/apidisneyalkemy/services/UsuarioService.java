@@ -25,12 +25,44 @@ public class UsuarioService {
     UsuarioRepository repo;
 
     @Transactional
-    public Usuario findByUsuarioAndContrasena(String usuario, String psw) throws Exception{
-        try{
+    public Usuario findByUsuarioAndContrasena(String usuario, String psw) throws Exception {
+        try {
             Optional<Usuario> entity = repo.findByUsuarioAndContrasena(usuario, psw);
+            return entity.get();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+/*
+    @Transactional
+    public Usuario findByUsuario(String usuario) throws Exception{
+        try{
+            Optional<Usuario> entity = repo.findByUsuario(usuario);
             return entity.get();
         } catch (Exception e){
             throw new Exception(e.getMessage());
         }
     }
+*/
+
+    @Transactional
+    public Usuario save(Usuario u) throws Exception {
+        try {
+            Usuario user = repo.save(u);
+            return user;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
+
+    @Transactional
+    public List<Usuario> findAll() throws Exception {
+        try {
+            return repo.findAll();
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
 }
