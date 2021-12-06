@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,6 +59,37 @@ public class PersonajeService {
             throw new Exception(e.getMessage());
         }
     }
+
+    @Transactional
+    public Personaje agregarPeliculas(Long id, long[] idMovies) throws Exception {
+        try {
+
+            Personaje p = repo.findById(id).get();
+            List<PeliculaSerie> peliculaSerieList = new ArrayList<>();
+            List<Personaje> personajeList = new ArrayList<>();
+            for (long movie: idMovies) {
+                System.out.println(movie);
+                Optional<PeliculaSerie> entity = repoPelicula.findById(movie);
+                if (!entity.isPresent()) {
+                    throw new Exception("Un id no corresponde a pelicula");
+                } else {
+                    PeliculaSerie pelicula = entity.get();
+                    if (!p.getListaPeliculasOSeries().contains(pelicula)) {
+                        peliculaSerieList.add(pelicula);
+                        personajeList = pelicula.getListaPersonajes();
+                        personajeList.add(p);
+                        pelicula.setListaPersonajes(personajeList);
+                    }
+                }
+            }
+            p.setListaPeliculasOSeries(peliculaSerieList);
+            Personaje pFinal = repo.save(p);
+            return pFinal;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+    }
+
 
     @Transactional
     public Personaje update(Personaje p,Long id) throws Exception {
