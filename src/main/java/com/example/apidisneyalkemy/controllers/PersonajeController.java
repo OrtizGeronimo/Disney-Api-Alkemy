@@ -3,6 +3,7 @@ package com.example.apidisneyalkemy.controllers;
 import com.example.apidisneyalkemy.entities.Personaje;
 import com.example.apidisneyalkemy.services.PersonajeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,6 +67,19 @@ public class PersonajeController {
     public ResponseEntity<?> crear(@RequestBody Personaje p) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(service.save(p));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. " + e.getMessage() + ".\"}");
+        }
+    }
+
+    @PostMapping ("/addMovie/{id}")
+    public ResponseEntity<?> agregarPeliculas(@RequestBody long[] idMovies, @PathVariable Long id) {
+        try {
+            if (service.agregarPeliculas(id, idMovies) != null) {
+                return ResponseEntity.status(HttpStatus.OK).body("Se agregaron las peliculas al personaje de Id" + id);
+            } else {
+                throw new Exception();
+            }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"Error. " + e.getMessage() + ".\"}");
         }

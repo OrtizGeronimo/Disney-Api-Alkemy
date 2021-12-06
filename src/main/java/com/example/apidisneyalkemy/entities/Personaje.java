@@ -1,5 +1,8 @@
 package com.example.apidisneyalkemy.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,6 +17,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class Personaje {
 
     @Id
@@ -25,6 +31,7 @@ public class Personaje {
     private float peso;
     private int edad;
 
-    @ManyToMany(mappedBy = "listaPersonajes")
+    //@JsonBackReference
+    @ManyToMany(mappedBy = "listaPersonajes", cascade = CascadeType.ALL)
     private List<PeliculaSerie> listaPeliculasOSeries = new ArrayList<PeliculaSerie>();
 }

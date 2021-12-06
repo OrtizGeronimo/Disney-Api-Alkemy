@@ -1,5 +1,8 @@
 package com.example.apidisneyalkemy.entities;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +18,9 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 public class PeliculaSerie {
 
     @Id
@@ -25,6 +31,7 @@ public class PeliculaSerie {
     private Date fechaCreacion;
     private int calificacion; //del 1 al 5
 
+    //@JsonManagedReference
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Personaje> listaPersonajes = new ArrayList<>();
 
